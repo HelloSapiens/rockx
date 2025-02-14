@@ -1,0 +1,9 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+rockx_*.tar.gz
+rockx/inst/doc
+rockx/doc/
+rockx/Meta/
+rockx/man/
