@@ -1,0 +1,53 @@
+---
+title: "rockx: A Pre-Release for Interacting with ODK-X Sync Endpoints"
+author: "Your Name"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{rockx: A Pre-Release for Interacting with ODK-X Sync Endpoints}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Introduction
+
+`rockx` is an R package designed to simplify interactions with an ODK-X Sync Endpoint via its REST API. This pre-release version allows you to:
+- **Authenticate** with the sync endpoint using your credentials.
+- **Fetch a list of tables** available on the server.
+- **(Upcoming)** Retrieve rows and attachments from these tables.
+
+# Authentication
+
+Before making any API calls, you need to set your API credentials and the sync endpoint URL. Use the `set_username_and_password()` function to configure these details:
+
+```r
+library(rockx)
+
+# Set your credentials and server URL
+set_username_and_password("my_user", "my_password", "https://my.sync-endpoint.com")
+```
+
+This function stores your username, password, and server URL as environment variables for use in subsequent API calls.
+
+# Fetching Tables
+
+After authentication, you can retrieve a list of tables from the sync endpoint. The get_tables() function makes a paginated GET request to the API and returns a tibble containing details for each table:
+```r
+library(rockx)
+
+# Retrieve the list of tables from the sync endpoint
+tables <- get_tables()
+print(tables)
+The function handles pagination by iteratively requesting additional pages if the server indicates there are more results.
+```
+
+# What's Next?  
+
+This pre-release version of rockx primarily focuses on authentication and table retrieval. Future updates will introduce functions for:
+- Fetching Rows: Retrieve row-level data from a selected table.
+- Fetching Attachments: Download files or attachments associated with table entries.
+
+# Conclusion  
+
+rockx aims to provide a seamless interface for interacting with ODK-X Sync Endpoints in R. By abstracting the details of API communication, the package allows you to focus on analyzing your data. This vignette has provided an overview of the current functionality, and we welcome feedback as we continue to develop and enhance the package.
+
+Enjoy using rockx, and happy data exploring!
