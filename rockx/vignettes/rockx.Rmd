@@ -13,7 +13,7 @@ vignette: >
 `rockx` is an R package designed to simplify interactions with an ODK-X Sync Endpoint via its REST API. This pre-release version allows you to:
 - **Authenticate** with the sync endpoint using your credentials.
 - **Fetch a list of tables** available on the server.
-- **(Upcoming)** Retrieve rows and attachments from these tables.
+- Retrieve **rows**  and **attachments** from these tables.
 
 # Authentication
 
@@ -24,6 +24,11 @@ library(rockx)
 
 # Set your credentials and server URL
 set_username_and_password("my_user", "my_password", "https://my.sync-endpoint.com")
+
+# You can then verify your credentials and check that the user is authorized to download data (must be a SITE ADMIN) with has_access():
+if (!has_access()) {
+  stop("User is not authorized")
+}
 ```
 
 This function stores your username, password, and server URL as environment variables for use in subsequent API calls.
@@ -32,19 +37,35 @@ This function stores your username, password, and server URL as environment vari
 
 After authentication, you can retrieve a list of tables from the sync endpoint. The get_tables() function makes a paginated GET request to the API and returns a tibble containing details for each table:
 ```r
-library(rockx)
-
 # Retrieve the list of tables from the sync endpoint
 tables <- get_tables()
 print(tables)
-The function handles pagination by iteratively requesting additional pages if the server indicates there are more results.
+
 ```
 
-# What's Next?  
+# Fetching rows
+```r
+# Retrieve the rows of the table my_table. The function handles pagination automatically by
+# iteratively requesting additional pages if the server indicates there are more results.
+# It will then do some basic type casting to numbers, chr, etc.
+rows <- get_all_rows("my_table")
 
-This pre-release version of rockx primarily focuses on authentication and table retrieval. Future updates will introduce functions for:
-- Fetching Rows: Retrieve row-level data from a selected table.
-- Fetching Attachments: Download files or attachments associated with table entries.
+```
+
+# Fetching images/attachments
+```r
+
+# In order for the download mechanism to be efficient, we will first get the
+# meta data for the table, and store it in an object we pass to the download function
+meta <- get_table_metadata("my_table")
+
+# The command below will download attachments for all rows in 'rows' and save them to
+# the folder "./data". 
+# The argument skip_if_instance_folder_exists means that if a folder in "./data/<id of row>"
+# exists, the function will skip downloading for that row.
+download_attachments(rows, meta, "data", skip_if_instance_folder_exists = TRUE)
+
+```
 
 # Conclusion  
 
