@@ -14,6 +14,6 @@ test_that("set_username_and_password updates credentials", {
   suppressMessages(set_username_and_password("test_userB", "test_passB", "http://test.my.urlB"))
   expect_equal(Sys.getenv("ROCKX_USERNAME"), "test_userB")
   expect_equal(Sys.getenv("ROCKX_PASSWORD"), "test_passB")
-  expect_equal(Sys.getenv("ROCKX_SERVER_URL"), "http://test.my.urlB") 
+  expect_equal(Sys.getenv("ROCKX_SERVER_URL"), "http://test.my.urlb") #server gets lowercased
   
 })
