@@ -11,7 +11,8 @@ library(rockx)
 
 ## Authentication
 
-Before making any API calls, you need to set your API credentials and the sync endpoint URL. Use the `set_username_and_password()` function to configure these details:
+Before making any API calls, you need to set your API credentials and the sync endpoint URL. Use the `set_username_and_password()` function to configure these details.
+This function stores your username, password, and server URL as environment variables for use in subsequent API calls.  
 
 ```r
 # Set your credentials and server URL
@@ -23,7 +24,6 @@ if (!has_access()) {
 }
 ```
 
-This function stores your username, password, and server URL as environment variables for use in subsequent API calls.
 
 ## Fetching Tables
 
@@ -59,8 +59,14 @@ download_attachments(rows, meta, "data", skip_if_instance_folder_exists = TRUE)
 
 ```
 
-## Conclusion  
+## Here to help
 
-rockx aims to provide a seamless interface for interacting with ODK-X Sync Endpoints in R. By abstracting the details of API communication, the package allows you to focus on analyzing your data. This vignette has provided an overview of the current functionality, and we welcome feedback as we continue to develop and enhance the package.
+rockx aims to provide a seamless interface for interacting with ODK-X Sync Endpoints in R.   
+By abstracting away the details of API communication, the package allows you to focus on analyzing your data.  
+This vignette has provided an overview of the current functionality, and we welcome feedback as we continue to develop and enhance the package.
 
 Enjoy using rockx, and happy data exploring!
+
+## Feedback and support  
+
+If you experience any issues or would like to suggest new features feel free to reach out or open an issue right [here on GitHub](https://github.com/HelloSapiens/rockx)!
