@@ -14,13 +14,14 @@
 set_username_and_password <- function(username, password, server_url) {
   if (missing(username) || missing(password) || missing(server_url)) {
     stop("Username, password, and server_url are required.")
-  }
+  }  
   
   # Optionally, check that server_url is a non-empty string.
   if (!is.character(server_url) || length(server_url) != 1 || nchar(server_url) == 0) {
     stop("'server_url' must be a non-empty string.")
   }
   
+  server_url <- tolower(server_url) |> gsub("/odktables.*|/+$", "", x = _)
   Sys.setenv(ROCKX_USERNAME = username)
   Sys.setenv(ROCKX_PASSWORD = password)
   Sys.setenv(ROCKX_SERVER_URL = server_url)
