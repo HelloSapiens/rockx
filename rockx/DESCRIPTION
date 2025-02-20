@@ -1,6 +1,6 @@
 Package: rockx
 Title: Easily Import Data from Your 'ODK-X Sync Endpoint'
-Version: 0.0.2
+Version: 0.0.3
 Authors@R: 
     person("Emil", "Rossing", , "hello@sapiens-solutions.com", role = c("aut", "cre"))
 Description: Provides helper functions for authenticating and retrieving data from your 'ODK-X Sync Endpoint'. This is an early release intended for testing and feedback.
@@ -21,4 +21,5 @@ Imports:
     jsonlite,
     purrr,
     tidyr,
-    rlang
+    rlang,
+    magrittr
