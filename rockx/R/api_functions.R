@@ -33,7 +33,7 @@
 # Internal helper for paginated GET requests.
 .paginate_get <- function(endpoint, extract_fn, cursor_fn, apply_flattening = FALSE) {
   all_results <- list()
-  flat_res <- as_tibble(NULL)
+  flat_res <- dplyr::as_tibble(NULL)
   cursor <- NULL
   has_more <- TRUE
   
@@ -63,9 +63,9 @@
 }
 
 .convert_column_list <- function(all_results) {
-  ordered_columns <- all_results$orderedColumns |> map_df(~ tidyr::pivot_wider(.x, names_from = column, values_from = value))
-  other_columns <- all_results[names(all_results) != "orderedColumns" & names(all_results) != "filterScope"] |>  as_tibble()
-  all_results <- bind_cols(other_columns, ordered_columns)
+  ordered_columns <- all_results$orderedColumns |> purrr::map_df(~ tidyr::pivot_wider(.x, names_from = column, values_from = value))
+  other_columns <- all_results[names(all_results) != "orderedColumns" & names(all_results) != "filterScope"] |>  dplyr::as_tibble()
+  all_results <- dplyr::bind_cols(other_columns, ordered_columns)
   return (all_results)
 }
 
@@ -78,7 +78,7 @@
   schema <- .get_table_schema(table_meta)
 
   # Iterate over each column in the schema.
-  pmap(schema$orderedColumns, function(elementKey, elementName, elementType, listChildElementKeys) {
+  purrr::pmap(schema$orderedColumns, function(elementKey, elementName, elementType, listChildElementKeys) {
     key <- elementKey
     type <- elementType
     child_keys <- jsonlite::fromJSON(listChildElementKeys)  # Parse JSON string
@@ -376,11 +376,11 @@ download_attachments <- function(rows, table_meta, save_to_directory, skip_if_in
   for (i in 1:nrow(rows)) {
     row <- rows[i, ]
     lookup_table <- row |> 
-      select(ends_with("_uriFragment")) |>      
+      dplyr::select(ends_with("_uriFragment")) |>      
       tidyr::pivot_longer(dplyr::everything(),
                    names_to = "fieldname", 
                    values_to = "urivalue") |>
-      mutate(fieldname = sub("_uriFragment$", "", .data$fieldname)) #using .data$ pronoun to satisfy linter...
+      dplyr::mutate(fieldname = sub("_uriFragment$", "", .data$fieldname)) #using .data$ pronoun to satisfy linter...
     .download_attachments_for_row(row$id, table_meta, save_to_directory, lookup_table, skip_if_instance_folder_exists)
   }
 }
