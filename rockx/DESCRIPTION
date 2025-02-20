@@ -1,11 +1,11 @@
 Package: rockx
 Title: Easily Import Data from Your 'ODK-X Sync Endpoint'
-Version: 0.0.3
+Version: 0.1.0
 Authors@R: 
     person("Emil", "Rossing", , "hello@sapiens-solutions.com", role = c("aut", "cre"))
 Description: Provides helper functions for authenticating and retrieving data from your 'ODK-X Sync Endpoint'. This is an early release intended for testing and feedback.
 License: MIT + file LICENSE
-Depends: R (>= 4.1.0)
+Depends: R (>= 4.2.0)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2

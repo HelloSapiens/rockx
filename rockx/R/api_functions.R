@@ -280,6 +280,30 @@ has_access <- function() {
   return(has_admin)  
 }
 
+#' Get Table Metadata
+#'
+#' Retrieves metadata for a given table from the ODK-X Sync Endpoint.
+#'
+#' @param table_name A character string specifying the table name.
+#' @return A list containing table metadata.
+#' @details This function calls the ODK-X Sync Endpoint to fetch metadata 
+#' about a specific table. If the `dataUri` field is missing in the response, 
+#' an error is thrown.
+#' @export
+get_table_metadata <- function(table_name) {
+  if (!is.character(table_name) || nchar(trimws(table_name)) < 1) {
+    stop("`table_name` must be a non-empty string.")
+  }
+
+  table_meta <- .get_response(paste0("/odktables/default/tables/", table_name))
+  
+  if (is.null(table_meta$dataUri)) {
+    stop("dataUri not found in table metadata")
+  }
+  
+  table_meta
+}
+
 #' Retrieve Tables from ODK-X Sync Endpoint
 #'
 #' This function retrieves the list of tables from the ODK-X Sync Endpoint by making a paginated GET request to
@@ -312,28 +336,6 @@ get_tables <- function() {
   
   # Combine the list of tables into a tibble.
   all_tables |> dplyr::bind_rows()
-}
-
-
-#' Retrieve table metadata from ODK-X Sync Endpoint
-#'
-#' This function retrieves the table metadata for a given table from the ODK-X Sync Endpoint.
-#'
-#' @param table_name String. The name of the table.
-#' @return A list containing table metadata.
-#' @export
-get_table_metadata <- function(table_name) {
-  if (!is.character(table_name) || nchar(trimws(table_name)) < 1) {
-    stop("`table_name` must be a non-empty string.")
-  }
-
-  table_meta <- .get_response(paste0("/odktables/default/tables/", table_name))
-  
-  if (is.null(table_meta$dataUri)) {
-    stop("dataUri not found in table metadata")
-  }
-  
-  table_meta
 }
 
 #' Retrieve all rows from a table
