@@ -3,3 +3,5 @@ rockx_*.tar.gz
 inst/doc
 /doc/
 /Meta/
+data
+scratchpad.R
